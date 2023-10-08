@@ -17,7 +17,7 @@ class ProductsDiscountFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => $this->faker->randomDigit,
+            'product_id' => $this->faker->randomElement(\App\Models\Product::pluck('id')),
             'user_id' => 1,
             'discount' => $this->faker->randomFloat(2, 0, 100),
             'valid_until' => $this->faker->dateTimeBetween('now', '+1 week'),

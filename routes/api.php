@@ -42,16 +42,37 @@ Route::apiResource('products', \App\Http\Controllers\Api\ProductController::clas
 Route::apiResource('users', \App\Http\Controllers\Api\UserController::class);
 
 
-// GET /api/products/{id}/sales
-// GET /api/products/{id}/sales/{id}
-//POST /api/products/{id}/sales
-//PUT /api/products/{id}/sales/{id}
-//DELETE /api/products/{id}/sales/{id}
-//PATCH /api/products/{id}/sales/{id}
+// GET /api/products/{id}/discount
+// GET /api/products/{id}/discount/{id}
+//POST /api/products/{id}/discount
+//PUT /api/products/{id}/discount/{id}
+//DELETE /api/products/{id}/discount/{id}
+//PATCH /api/products/{id}/discount/{id}
 Route::apiResource('products.discount', \App\Http\Controllers\Api\ProductsDiscountController::class);
 
 
+// GET /api/discount
+//GET /api/discount/{id}
+//POST /api/discount
+//PUT /api/discount/{id}
+//DELETE /api/discount/{id}
+//PATCH /api/discount/{id}
+
 Route::apiResource('discount', \App\Http\Controllers\Api\DiscountController::class);
 
+// GET /api/clients
+//GET /api/clients/{id}
+//POST /api/clients
+//PUT /api/clients/{id}
+//DELETE /api/clients/{id}
+//PATCH /api/clients/{id}
+Route::apiResource('clients', \App\Http\Controllers\Api\ClientController::class);
 
 
+// GET /api/sales
+//GET /api/sales/{id}
+//POST /api/sales
+//PUT /api/sales/{id}
+//DELETE /api/sales/{id}
+//PATCH /api/sales/{id}
+Route::apiResource('sales', \App\Http\Controllers\Api\SaleController::class);

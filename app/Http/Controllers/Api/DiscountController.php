@@ -21,7 +21,7 @@ class DiscountController extends Controller
     public function index()
     {
 
-        return $this->productsDiscount->paginate(10);
+        return $this->productsDiscount->paginate(10)->load('product');
     }
 
     /**
@@ -29,7 +29,7 @@ class DiscountController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->productsDiscount->create($request->all());
+        return $this->productsDiscount->create($request->all())->load('product');
     }
 
     /**
@@ -37,7 +37,7 @@ class DiscountController extends Controller
      */
     public function show(string $id)
     {
-        return $this->productsDiscount->find($id);
+        return $this->productsDiscount->find($id)->load('product');
     }
 
     /**
@@ -45,7 +45,7 @@ class DiscountController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $productsDiscount = $this->productsDiscount->find($id);
+        $productsDiscount = $this->productsDiscount->find($id)->load('product');
         $productsDiscount->update($request->all());
 
         return $productsDiscount;
@@ -56,7 +56,7 @@ class DiscountController extends Controller
      */
     public function destroy(string $id)
     {
-        $productsDiscount = $this->productsDiscount->find($id);
+        $productsDiscount = $this->productsDiscount->find($id)->load('product');
         $productsDiscount->update(['status' => 'inactive']);
         return $productsDiscount;
     }
