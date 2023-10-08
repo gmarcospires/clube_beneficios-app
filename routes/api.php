@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+// php artisan make:model ProductsSale -mf
+// php artisan make:controller Api/ProductController --resource --api
+// php artisan migrate
+// php artisan db:seed
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -27,9 +31,6 @@ Route::get('/', [\App\Http\Controllers\Api\HomeController::class, 'index']);
 //PUT /api/products/{id}
 //DELETE /api/products/{id}
 //PATCH /api/products/{id}
-// php artisan make:controller Api/ProductController --resource --api
-// php artisan migrate
-// php artisan db:seed
 Route::apiResource('products', \App\Http\Controllers\Api\ProductController::class);
 
 // GET /api/users
@@ -39,4 +40,18 @@ Route::apiResource('products', \App\Http\Controllers\Api\ProductController::clas
 //DELETE /api/users/{id}
 //PATCH /api/users/{id}
 Route::apiResource('users', \App\Http\Controllers\Api\UserController::class);
+
+
+// GET /api/products/{id}/sales
+// GET /api/products/{id}/sales/{id}
+//POST /api/products/{id}/sales
+//PUT /api/products/{id}/sales/{id}
+//DELETE /api/products/{id}/sales/{id}
+//PATCH /api/products/{id}/sales/{id}
+Route::apiResource('products.discount', \App\Http\Controllers\Api\ProductsDiscountController::class);
+
+
+Route::apiResource('discount', \App\Http\Controllers\Api\DiscountController::class);
+
+
 
