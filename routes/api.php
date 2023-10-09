@@ -69,6 +69,15 @@ Route::apiResource('discount', \App\Http\Controllers\Api\DiscountController::cla
 Route::apiResource('clients', \App\Http\Controllers\Api\ClientController::class);
 
 
+// GET /api/clients/{id}/sales
+// GET /api/clients/{id}/sales/{id}
+//POST /api/clients/{id}/sales
+//PUT /api/clients/{id}/sales/{id}
+//DELETE /api/clients/{id}/sales/{id}
+//PATCH /api/clients/{id}/sales/{id}
+Route::apiResource('clients.sales', \App\Http\Controllers\Api\ClientSales::class);
+
+
 // GET /api/sales
 //GET /api/sales/{id}
 //POST /api/sales
