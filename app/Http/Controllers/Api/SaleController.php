@@ -37,7 +37,14 @@ class SaleController extends Controller
      */
     public function show(string $id)
     {
-        return $this->sale->find($id)->load('client')->load('products');
+        $sale =  $this->sale->find($id);
+
+        if ($sale) {
+            $sale->load('products');
+            $sale->load('client');
+        }
+
+        return $sale;
     }
 
     /**
@@ -46,7 +53,9 @@ class SaleController extends Controller
     public function update(Request $request, string $id)
     {
         $sale = $this->sale->find($id);
-        $sale->update($request->all());
+        if ($sale) {
+            $sale->update($request->all());
+        }
 
         return $sale;
     }

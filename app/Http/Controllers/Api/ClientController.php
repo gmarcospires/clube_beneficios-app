@@ -21,7 +21,11 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return $this->client->paginate(10)->load('user');
+        $client = $this->client->paginate(10);
+        if ($client) {
+            $client->load('user');
+        }
+        return $client;
     }
 
 
@@ -30,7 +34,11 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->client->create($request->all())->load('user');
+        $client =  $this->client->create($request->all());
+        if ($client) {
+            $client->load('user');
+        }
+        return $client;
     }
 
     /**
@@ -38,7 +46,13 @@ class ClientController extends Controller
      */
     public function show(string $id)
     {
-        return $this->client->find($id)->load('user');
+        $client =  $this->client->find($id);
+
+        if ($client) {
+            $client->load('user');
+        }
+
+        return $client;
     }
 
     /**
@@ -46,8 +60,12 @@ class ClientController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $client = $this->client->find($id)->load('user');
-        $client->update($request->all());
+        $client = $this->client->find($id);
+
+        if ($client) {
+            $client->load('user');
+            $client->update($request->all());
+        }
 
         return $client;
     }
@@ -57,8 +75,13 @@ class ClientController extends Controller
      */
     public function destroy(string $id)
     {
-        $client = $this->client->find($id)->load('user');
-        $client->update(['status' => 'inactive']);
+        $client = $this->client->find($id);
+
+        if ($client) {
+            $client->load('user');
+            $client->update(['status' => 'inactive']);
+        }
+
         return $client;
     }
 }

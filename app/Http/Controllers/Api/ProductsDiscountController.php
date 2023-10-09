@@ -22,7 +22,7 @@ class ProductsDiscountController extends Controller
     {
 
         return $this->productsDiscount->where('product_id', $product)
-        ->paginate(10);
+            ->paginate(10);
     }
 
     /**
@@ -57,7 +57,10 @@ class ProductsDiscountController extends Controller
                 'id' => $id
             ]
         )->first();
-        $productsDiscount->update($request->all());
+
+        if ($productsDiscount) {
+            $productsDiscount->update($request->all());
+        }
 
         return $productsDiscount;
     }
@@ -73,7 +76,11 @@ class ProductsDiscountController extends Controller
                 'id' => $id
             ]
         )->first();
-        $productsDiscount->update(['status' => 'inactive']);
+
+        if ($productsDiscount) {
+            $productsDiscount->update(['status' => 'inactive']);
+        }
+
         return $productsDiscount;
     }
 }

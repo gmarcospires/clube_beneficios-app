@@ -45,7 +45,10 @@ class ProductController extends Controller
     public function update(Request $request, string $id)
     {
         $product = $this->product->find($id);
-        $product->update($request->all());
+
+        if ($product) {
+            $product->update($request->all());
+        }
 
         return $product;
     }
@@ -56,8 +59,10 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         $product = $this->product->find($id);
-        $product->delete();
 
+        if ($product) {
+            $product->delete();
+        }
         return $product;
     }
 }

@@ -21,7 +21,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return $this->user->paginate(10)->load('clients');
+        return $this->user->paginate(10);
     }
 
     /**
@@ -37,7 +37,13 @@ class UserController extends Controller
         //     'remember_token' => Str::random(10),
         // ]);
 
-        return $this->user->create($request->all())->load('clients');
+        $user =  $this->user->create($request->all());
+
+        if ($user) {
+            $user->load('clients');
+        }
+
+        return $user;
     }
 
     /**
@@ -45,7 +51,13 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        return $this->user->find($id)->load('clients');
+        $user = $this->user->find($id);
+
+        if ($user) {
+            $user->load('clients');
+        }
+
+        return $user;
     }
 
     /**
@@ -53,8 +65,12 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $user = $this->user->find($id)->load('clients');
-        $user->update($request->all());
+        $user = $this->user->find($id);
+
+        if ($user) {
+            $user->load('clients');
+            $user->update($request->all());
+        }
 
         return $user;
     }
@@ -64,8 +80,12 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        $user = $this->user->find($id)->load('clients');
-        $user->delete();
+        $user = $this->user->find($id);
+
+        if ($user) {
+            $user->load('clients');
+            $user->delete();
+        }
 
         return $user;
     }
