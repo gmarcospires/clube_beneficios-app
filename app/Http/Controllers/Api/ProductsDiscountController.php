@@ -24,7 +24,7 @@ class ProductsDiscountController extends Controller
         $productsDiscount =  $this->productsDiscount->where('product_id', $product);
 
         if ($productsDiscount) {
-            return $productsDiscount->load('product');
+            return $productsDiscount->paginate(10);
         } else {
             return response()->json(['error' => 'Not found'], 404);
         }
