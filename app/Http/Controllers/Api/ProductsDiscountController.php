@@ -21,8 +21,13 @@ class ProductsDiscountController extends Controller
     public function index(string $product)
     {
 
-        return $this->productsDiscount->where('product_id', $product)
-        ->paginate(10);
+        $productsDiscount =  $this->productsDiscount->where('product_id', $product);
+
+        if ($productsDiscount) {
+            return $productsDiscount->load('product');
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
+        }
     }
 
     /**
@@ -30,7 +35,13 @@ class ProductsDiscountController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->productsDiscount->create($request->all());
+        $productsDiscount = $this->productsDiscount->create($request->all());
+
+        if ($productsDiscount) {
+            return $productsDiscount;
+        } else {
+            return response()->json(['error' => 'Erro criação'], 500);
+        }
     }
 
     /**
@@ -57,9 +68,12 @@ class ProductsDiscountController extends Controller
                 'id' => $id
             ]
         )->first();
-        $productsDiscount->update($request->all());
 
-        return $productsDiscount;
+        if ($productsDiscount) {
+            return $productsDiscount->update($request->all());
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
+        }
     }
 
     /**
@@ -73,7 +87,11 @@ class ProductsDiscountController extends Controller
                 'id' => $id
             ]
         )->first();
-        $productsDiscount->update(['status' => 'inactive']);
-        return $productsDiscount;
+
+        if ($productsDiscount) {
+            return $productsDiscount->update(['status' => 'inactive']);
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
+        }
     }
 }
