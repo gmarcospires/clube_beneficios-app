@@ -20,8 +20,13 @@ class ClientSales extends Controller
      */
     public function index(string $client)
     {
-        return $this->clientSales->where('client_id', $client)
-            ->paginate(10)->load('client');
+        $clientSales =  $this->clientSales->where('client_id', $client)
+            ->paginate(10);
+        if ($clientSales) {
+            return $clientSales->load('client');
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
+        }
     }
 
     /**
@@ -29,7 +34,13 @@ class ClientSales extends Controller
      */
     public function store(Request $request)
     {
-        return $this->clientSales->create($request->all())->load('client');
+        $clientSales = $this->clientSales->create($request->all());
+
+        if ($clientSales) {
+            return $clientSales->load('client');
+        } else {
+            return response()->json(['error' => 'Erro criação'], 500);
+        }
     }
 
     /**
@@ -45,9 +56,10 @@ class ClientSales extends Controller
         )->first();
 
         if ($clientSales) {
-            $clientSales->load('client');
+            return $clientSales->load('client');
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
         }
-        return $clientSales;
     }
 
     /**
@@ -64,10 +76,10 @@ class ClientSales extends Controller
 
         if ($clientSales) {
             $clientSales->load('client');
-            $clientSales->update($request->all());
+            return $clientSales->update($request->all());
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
         }
-
-        return $clientSales;
     }
 
     /**
@@ -85,9 +97,9 @@ class ClientSales extends Controller
 
         if ($clientSales) {
             $clientSales->load('client');
-            $clientSales->update(['status' => 'cancelled']);
+            return $clientSales->update(['status' => 'cancelled']);
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
         }
-
-        return $clientSales;
     }
 }

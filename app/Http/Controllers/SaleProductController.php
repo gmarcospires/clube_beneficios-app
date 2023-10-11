@@ -21,7 +21,13 @@ class saleProductProductController extends Controller
      */
     public function index()
     {
-        return $this->saleProduct->paginate(10);
+        $saleProduct = $this->saleProduct->paginate(10);
+
+        if ($saleProduct) {
+            return $saleProduct;
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
+        }
     }
 
     /**
@@ -29,7 +35,13 @@ class saleProductProductController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->saleProduct->create($request->all());
+        $saleProduct =  $this->saleProduct->create($request->all());
+
+        if ($saleProduct) {
+            return $saleProduct;
+        } else {
+            return response()->json(['error' => 'Erro criação'], 500);
+        }
     }
 
     /**
@@ -37,7 +49,13 @@ class saleProductProductController extends Controller
      */
     public function show(string $id)
     {
-        return $this->saleProduct->find($id)->load('product');
+        $saleProduct = $this->saleProduct->find($id);
+
+        if ($saleProduct) {
+            return $saleProduct->load('product');
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
+        }
     }
 
     /**
@@ -46,9 +64,11 @@ class saleProductProductController extends Controller
     public function update(Request $request, string $id)
     {
         $saleProduct = $this->saleProduct->find($id);
-        $saleProduct->update($request->all());
-
-        return $saleProduct;
+        if ($saleProduct) {
+            return $saleProduct->update($request->all());
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
+        }
     }
 
     /**
@@ -57,8 +77,10 @@ class saleProductProductController extends Controller
     public function destroy(string $id)
     {
         $saleProduct = $this->saleProduct->find($id);
-        $saleProduct->update(['status' => 'cancelled']);
-
-        return $saleProduct;
+        if ($saleProduct) {
+            return $saleProduct->update(['status' => 'cancelled']);
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
+        }
     }
 }

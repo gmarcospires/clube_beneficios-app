@@ -22,9 +22,13 @@ class ClientController extends Controller
     public function index()
     {
         $client = $this->client->paginate(10);
+
         if ($client) {
             $client->load('user');
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
         }
+
         return $client;
     }
 
@@ -35,10 +39,12 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         $client =  $this->client->create($request->all());
+
         if ($client) {
-            $client->load('user');
+            return $client->load('user');
+        } else {
+            return response()->json(['error' => 'Erro criação'], 500);
         }
-        return $client;
     }
 
     /**
@@ -49,10 +55,10 @@ class ClientController extends Controller
         $client =  $this->client->find($id);
 
         if ($client) {
-            $client->load('user');
+            return $client->load('user');
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
         }
-
-        return $client;
     }
 
     /**
@@ -64,10 +70,10 @@ class ClientController extends Controller
 
         if ($client) {
             $client->load('user');
-            $client->update($request->all());
+            return $client->update($request->all());
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
         }
-
-        return $client;
     }
 
     /**
@@ -79,9 +85,9 @@ class ClientController extends Controller
 
         if ($client) {
             $client->load('user');
-            $client->update(['status' => 'inactive']);
+            return $client->update(['status' => 'inactive']);
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
         }
-
-        return $client;
     }
 }

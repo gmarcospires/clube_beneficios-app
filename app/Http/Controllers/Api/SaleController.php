@@ -15,13 +15,18 @@ class SaleController extends Controller
         $this->sale = $sale;
     }
 
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return $this->sale->paginate(10);
+        $sale = $this->sale->paginate(10);
+
+        if ($sale) {
+            return $sale;
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
+        }
     }
 
     /**
@@ -29,7 +34,13 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->sale->create($request->all());
+        $sale =  $this->sale->create($request->all());
+
+        if ($sale) {
+            return $sale;
+        } else {
+            return response()->json(['error' => 'Erro criação'], 500);
+        }
     }
 
     /**
@@ -41,10 +52,10 @@ class SaleController extends Controller
 
         if ($sale) {
             $sale->load('products');
-            $sale->load('client');
+            return $sale->load('client');
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
         }
-
-        return $sale;
     }
 
     /**
@@ -53,11 +64,12 @@ class SaleController extends Controller
     public function update(Request $request, string $id)
     {
         $sale = $this->sale->find($id);
-        if ($sale) {
-            $sale->update($request->all());
-        }
 
-        return $sale;
+        if ($sale) {
+            return $sale->update($request->all());
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
+        }
     }
 
     /**
@@ -66,8 +78,11 @@ class SaleController extends Controller
     public function destroy(string $id)
     {
         $sale = $this->sale->find($id);
-        $sale->update(['status' => 'cancelled']);
 
-        return $sale;
+        if ($sale) {
+            return $sale->update(['status' => 'cancelled']);
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
+        }
     }
 }

@@ -20,7 +20,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return $this->product->paginate(10);
+        $product = $this->product->paginate(10);
+
+        if ($product) {
+            return $product;
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
+        }
     }
 
     /**
@@ -28,7 +34,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->product->create($request->all());
+        $product =  $this->product->create($request->all());
+
+        if ($product) {
+            return $product;
+        } else {
+            return response()->json(['error' => 'Erro criação'], 500);
+        }
     }
 
     /**
@@ -36,7 +48,13 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        return $this->product->find($id);
+        $product =  $this->product->find($id);
+
+        if ($product) {
+            return $product;
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
+        }
     }
 
     /**
@@ -47,10 +65,10 @@ class ProductController extends Controller
         $product = $this->product->find($id);
 
         if ($product) {
-            $product->update($request->all());
+            return $product->update($request->all());
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
         }
-
-        return $product;
     }
 
     /**
@@ -61,8 +79,9 @@ class ProductController extends Controller
         $product = $this->product->find($id);
 
         if ($product) {
-            $product->delete();
+            return $product->delete();
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
         }
-        return $product;
     }
 }

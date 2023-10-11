@@ -21,7 +21,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        return $this->user->paginate(10);
+        $user = $this->user->paginate(10);
+
+        if ($user) {
+            return $user;
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
+        }
     }
 
     /**
@@ -40,10 +46,10 @@ class UserController extends Controller
         $user =  $this->user->create($request->all());
 
         if ($user) {
-            $user->load('clients');
+            return $user->load('clients');
+        } else {
+            return response()->json(['error' => 'Erro criação'], 500);
         }
-
-        return $user;
     }
 
     /**
@@ -54,10 +60,10 @@ class UserController extends Controller
         $user = $this->user->find($id);
 
         if ($user) {
-            $user->load('clients');
+            return $user->load('clients');
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
         }
-
-        return $user;
     }
 
     /**
@@ -69,10 +75,10 @@ class UserController extends Controller
 
         if ($user) {
             $user->load('clients');
-            $user->update($request->all());
+            return $user->update($request->all());
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
         }
-
-        return $user;
     }
 
     /**
@@ -84,9 +90,9 @@ class UserController extends Controller
 
         if ($user) {
             $user->load('clients');
-            $user->delete();
+            return $user->delete();
+        } else {
+            return response()->json(['error' => 'Not found'], 404);
         }
-
-        return $user;
     }
 }
