@@ -3,16 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
+use App\Models\Client;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class ClientController extends Controller
 {
-    private $product;
 
-    public function __construct(Product $product)
+    private $client;
+
+    public function __construct(Client $client)
     {
-        $this->product = $product;
+        $this->client = $client;
     }
 
     /**
@@ -20,24 +21,27 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = $this->product->paginate(10);
+        $client = $this->client->paginate(10);
 
-        if ($product) {
-            return $product;
+        if ($client) {
+            $client->load('user');
         } else {
             return response()->json(['error' => 'Not found'], 404);
         }
+
+        return $client;
     }
+
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $product =  $this->product->create($request->all());
+        $client =  $this->client->create($request->all());
 
-        if ($product) {
-            return $product;
+        if ($client) {
+            return $client->load('user');
         } else {
             return response()->json(['error' => 'Erro criação'], 500);
         }
@@ -48,10 +52,10 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product =  $this->product->find($id);
+        $client =  $this->client->find($id);
 
-        if ($product) {
-            return $product;
+        if ($client) {
+            return $client->load('user');
         } else {
             return response()->json(['error' => 'Not found'], 404);
         }
@@ -62,10 +66,11 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $product = $this->product->find($id);
+        $client = $this->client->find($id);
 
-        if ($product) {
-            return $product->update($request->all());
+        if ($client) {
+            $client->load('user');
+            return $client->update($request->all());
         } else {
             return response()->json(['error' => 'Not found'], 404);
         }
@@ -76,10 +81,11 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        $product = $this->product->find($id);
+        $client = $this->client->find($id);
 
-        if ($product) {
-            return $product->delete();
+        if ($client) {
+            $client->load('user');
+            return $client->update(['status' => 'inactive']);
         } else {
             return response()->json(['error' => 'Not found'], 404);
         }

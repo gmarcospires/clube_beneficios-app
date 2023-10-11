@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
+use App\Models\ProductsDiscount;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class DiscountController extends Controller
 {
-    private $product;
+    private $productsDiscount;
 
-    public function __construct(Product $product)
+    public function __construct(ProductsDiscount $productsDiscount)
     {
-        $this->product = $product;
+        $this->productsDiscount = $productsDiscount;
     }
 
     /**
@@ -20,10 +20,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = $this->product->paginate(10);
 
-        if ($product) {
-            return $product;
+        $productsDiscount =  $this->productsDiscount->paginate(10);
+
+        if ($productsDiscount) {
+            return $productsDiscount->load('product');
         } else {
             return response()->json(['error' => 'Not found'], 404);
         }
@@ -34,10 +35,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $product =  $this->product->create($request->all());
+        $productsDiscount =  $this->productsDiscount->create($request->all());
 
-        if ($product) {
-            return $product;
+        if ($productsDiscount) {
+            return $productsDiscount->load('product');
         } else {
             return response()->json(['error' => 'Erro criação'], 500);
         }
@@ -48,10 +49,10 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product =  $this->product->find($id);
+        $productsDiscount =  $this->productsDiscount->find($id);
 
-        if ($product) {
-            return $product;
+        if ($productsDiscount) {
+            return $productsDiscount->load('product');
         } else {
             return response()->json(['error' => 'Not found'], 404);
         }
@@ -62,10 +63,11 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $product = $this->product->find($id);
+        $productsDiscount = $this->productsDiscount->find($id);
 
-        if ($product) {
-            return $product->update($request->all());
+        if ($productsDiscount) {
+            $productsDiscount->load('product');
+            return $productsDiscount->update($request->all());
         } else {
             return response()->json(['error' => 'Not found'], 404);
         }
@@ -76,10 +78,11 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        $product = $this->product->find($id);
+        $productsDiscount = $this->productsDiscount->find($id);
 
-        if ($product) {
-            return $product->delete();
+        if ($productsDiscount) {
+            $productsDiscount->load('product');
+            return $productsDiscount->update(['status' => 'inactive']);
         } else {
             return response()->json(['error' => 'Not found'], 404);
         }

@@ -3,16 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
-class ProductController extends Controller
+class UserController extends Controller
 {
-    private $product;
+    private $user;
 
-    public function __construct(Product $product)
+    public function __construct(User $user)
     {
-        $this->product = $product;
+        $this->user = $user;
     }
 
     /**
@@ -20,10 +21,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = $this->product->paginate(10);
+        $user = $this->user->paginate(10);
 
-        if ($product) {
-            return $product;
+        if ($user) {
+            return $user;
         } else {
             return response()->json(['error' => 'Not found'], 404);
         }
@@ -34,10 +35,18 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $product =  $this->product->create($request->all());
+        // return $this->user->create([
+        //     'name' => $request->name,
+        //     'email' => $request->email,
+        //     'role' => 'user',
+        //     'password' => bcrypt($request->password),
+        //     'remember_token' => Str::random(10),
+        // ]);
 
-        if ($product) {
-            return $product;
+        $user =  $this->user->create($request->all());
+
+        if ($user) {
+            return $user->load('clients');
         } else {
             return response()->json(['error' => 'Erro criação'], 500);
         }
@@ -48,10 +57,10 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product =  $this->product->find($id);
+        $user = $this->user->find($id);
 
-        if ($product) {
-            return $product;
+        if ($user) {
+            return $user->load('clients');
         } else {
             return response()->json(['error' => 'Not found'], 404);
         }
@@ -62,10 +71,11 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $product = $this->product->find($id);
+        $user = $this->user->find($id);
 
-        if ($product) {
-            return $product->update($request->all());
+        if ($user) {
+            $user->load('clients');
+            return $user->update($request->all());
         } else {
             return response()->json(['error' => 'Not found'], 404);
         }
@@ -76,10 +86,11 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        $product = $this->product->find($id);
+        $user = $this->user->find($id);
 
-        if ($product) {
-            return $product->delete();
+        if ($user) {
+            $user->load('clients');
+            return $user->delete();
         } else {
             return response()->json(['error' => 'Not found'], 404);
         }

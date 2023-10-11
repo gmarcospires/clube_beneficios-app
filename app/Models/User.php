@@ -44,60 +44,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    // /**
-    //  * Get all Users
-    //  *
-    //  * @return \Illuminate\Database\Eloquent\Relations\HasMany
-    //  */
-    // public function getUsers(): HasMany
-    // {
-    //     return $this->hasMany(User::class);
-    // }
 
-    // /**
-    //  * Get the User associated with the $id
-    //  *
-    //  * @return \Illuminate\Database\Eloquent\Relations\HasOne
-    //  */
-    // public function getUser($id)
-    // {
-    //     return $this->find($id);
-    // }
-
-    // /**
-    //  * Create a new User
-    //  *
-    //  * @return \Illuminate\Database\Eloquent\Relations\HasOne
-    //  */
-    // public function createUser($data)
-    // {
-    //     return $this->create($data);
-    // }
-
-    // /**
-    //  * Update the User associated with the $id
-    //  *
-    //  * @return \Illuminate\Database\Eloquent\Relations\HasOne
-    //  */
-    // public function updateUser($id, $data)
-    // {
-    //     return $this->find($id)->update($data);
-    // }
-
-    // /**
-    //  * Delete the User associated with the $id
-    //  *
-    //  * @return \Illuminate\Database\Eloquent\Relations\HasOne
-    //  */
-    // public function deleteUser($id)
-    // {
-    //     return $this->find($id)->delete();
-    // }
-
-    // public function getUserLogin($email, $password)
-    // {
-    //     return $this->where('email', $email)->where('password', $password)->first();
-    // }
-
+    public function clients()
+    {
+        return $this->hasOne(Client::class);
+    }
 
 }
