@@ -56,7 +56,6 @@ const Login: NextPage<LoginProps> = ({ callbackUrl }) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(login, password);
     if (!login || !password) return;
     const validationSchema = z.object({
       login: z.string(),
@@ -111,7 +110,7 @@ const Login: NextPage<LoginProps> = ({ callbackUrl }) => {
       >
         <TextField
           id="user"
-          label="Usuário"
+          label="E-mail"
           value={login}
           onChange={(e) => setLogin(e.target.value.trim().toLowerCase())}
           variant="outlined"

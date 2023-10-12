@@ -72,14 +72,41 @@ export const authOptions: NextAuthOptions = {
           password: string | null;
         };
 
-        const respLogin = await fetchAPI("/api/auth/login", {
+        const respLogin = await fetchAPI("login", {
           method: "POST",
+          body: JSON.stringify({ email: login, password }),
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ login, password }),
-        });
-        if (respLogin.status === 200) {
-          return respLogin.json() as unknown as User;
-        }
+        })
+          .then((resp) => {
+            // if (resp.status === 200) {
+
+            return resp.json();
+            // } else {
+            //   throw new Error("Login failed");
+            // }
+          })
+          .then((data) => {
+            console.log(data);
+            return data as {
+              id: number;
+              name: string;
+              email: string;
+              role: string;
+            };
+          })
+          .catch((err) => {
+            console.error(err);
+            return null;
+          });
+
+        const user: User = {
+          id: respLogin?.id.toString() ?? "",
+          name: respLogin?.name ?? "",
+          email: respLogin?.email ?? "",
+          image: "",
+          // role: respLogin?.role ?? "",
+        };
+        if (respLogin) return user;
         return null;
       },
     }),
