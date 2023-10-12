@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
@@ -8,6 +7,7 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+import Navigation from "~/Components/Navigation";
 import "~/styles/globals.css";
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -16,9 +16,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Box className="h-screen w-screen">
-        <Component {...pageProps} />
-      </Box>
+      <Component {...pageProps} />
+      <Navigation />
     </SessionProvider>
   );
 };

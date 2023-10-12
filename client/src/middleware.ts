@@ -4,9 +4,9 @@ export default withAuth({
   callbacks: {
     authorized({ req, token }) {
       // `/admin` requires admin role
-      // if (req.nextUrl.pathname === "/admin") {
-      //   return !!token
-      // }
+      if (req.nextUrl.pathname === "/promocoes") {
+        return !!token?.role && token.role === "admin";
+      }
       // `/me` only requires the user to be logged in
       return !!token;
     },
