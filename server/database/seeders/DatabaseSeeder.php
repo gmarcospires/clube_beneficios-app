@@ -14,23 +14,23 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Admin',
-        //     'email' => 'test@example.com',
-        //     'password' => bcrypt('password'),
-        //     'role' => 'admin'
-        // ]);
+        \App\Models\User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'test@example.com',
+            'password' => bcrypt('12345'),
+            'role' => 'admin'
+        ]);
 
-        \App\Models\User::factory(5)->create();
+        // \App\Models\User::factory(5)->create();
 
-        \App\Models\Client::factory(2)->create();
+        // \App\Models\Client::factory(2)->create();
 
-        \App\Models\Product::factory(10)->create();
+        // \App\Models\Product::factory(10)->create();
 
-        \App\Models\ProductsDiscount::factory(3)->create();
+        // \App\Models\ProductsDiscount::factory(3)->create();
 
-        \App\Models\Sale::factory(5)->create();
+        // \App\Models\Sale::factory(5)->create();
 
-        \App\Models\SaleProduct::factory(5)->create();
+        // \App\Models\SaleProduct::factory(5)->create();
     }
 }

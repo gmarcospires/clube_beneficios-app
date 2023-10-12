@@ -22,7 +22,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/', [\App\Http\Controllers\Api\HomeController::class, 'index']);
+Route::fallback(function () {
+    return response()->json([
+        'message' => 'Page Not Found. If error persists, contact ' . config('app.dev_email'), 'code' => 404
+    ], 404);
+});
+
+// POST /api/login
+Route::post('login', [\App\Http\Controllers\Api\LoginController::class, 'login']);
 
 
 // GET /api/products
