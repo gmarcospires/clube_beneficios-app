@@ -20,8 +20,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = $this->product->paginate(10);
-
+        $product = $this->product->with('discount')->paginate(10);
+        //
         if ($product) {
             return $product;
         } else {
@@ -48,7 +48,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product =  $this->product->find($id);
+        $product =  $this->product->find($id)->load('discount');
 
         if ($product) {
             return $product;

@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(10)->create();
 
         \App\Models\User::factory()->create([
             'name' => 'Admin',
@@ -21,16 +21,16 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin'
         ]);
 
-        // \App\Models\User::factory(5)->create();
+        \App\Models\User::factory(5)->create();
 
-        // \App\Models\Client::factory(2)->create();
+        \App\Models\Client::factory(2)->create();
 
-        // \App\Models\Product::factory(10)->create();
+        \App\Models\Product::factory(10)->create();
 
-        // \App\Models\ProductsDiscount::factory(3)->create();
+        \App\Models\ProductsDiscount::factory(3)->create();
 
-        // \App\Models\Sale::factory(5)->create();
+        \App\Models\Sale::factory(5)->create();
 
-        // \App\Models\SaleProduct::factory(5)->create();
+        \App\Models\SaleProduct::factory(5)->create();
     }
 }
