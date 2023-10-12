@@ -28,8 +28,7 @@ Route::fallback(function () {
     ], 404);
 });
 
-// Route::apiResource('login', \App\Http\Controllers\Api\LoginController::class)->only('index');
-
+// POST /api/login
 Route::post('login', [\App\Http\Controllers\Api\LoginController::class, 'login']);
 
 
