@@ -96,7 +96,7 @@ const Login: NextPage<LoginProps> = ({ callbackUrl }) => {
 
   return (
     <Container
-      className="flex h-full w-full flex-col
+      className="custom-container h-full w-full flex-col
        !items-center !justify-center  p-5 !align-middle"
     >
       <h1 className="text-4xl font-bold">Login</h1>
