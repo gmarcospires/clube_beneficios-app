@@ -36,6 +36,6 @@ class Product extends Model
 
     public function discount()
     {
-        return $this->hasOne(ProductsDiscount::class);
+        return $this->hasOne(ProductsDiscount::class)->where('status', 'active');	
     }
 }

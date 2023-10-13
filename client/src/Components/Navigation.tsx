@@ -7,7 +7,7 @@ import {
 } from "@mui/icons-material";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import AppBar from "@mui/material/AppBar";
 import IconButton from "@mui/material/IconButton";
@@ -16,6 +16,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { Carrinho } from "~/contexts/Cart";
 
 export default function Navigation() {
   const session = useSession();
@@ -32,6 +33,7 @@ export default function Navigation() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const { updateProdutos } = useContext(Carrinho);
 
   if (session?.status === "unauthenticated") {
     if (!router.pathname.includes("login")) {
@@ -40,7 +42,9 @@ export default function Navigation() {
     return null;
   }
 
+
   const handleSingOut = async () => {
+    updateProdutos([]);
     await signOut();
   };
 

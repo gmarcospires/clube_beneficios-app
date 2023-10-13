@@ -69,11 +69,6 @@ const ModalAddDiscount: React.FC<PropsModalDiscount> = ({
 
   const handleSubmit = async () => {
     if (!productInput || !discountInput) return;
-    console.log({
-      product_id: Number(productInput),
-      discount: Number(discountInput.replace(",", ".")),
-      valid_until: dateInput ? dateInput.toISOString() : null,
-    });
     const resp = await fetchAPI("discount", {
       method: "POST",
       body: JSON.stringify({

@@ -21,6 +21,7 @@ interface Products {
   stock: number;
   image: string;
   update_at: string;
+  discount?: Discount;
 }
 
 interface Clients {
@@ -57,4 +58,13 @@ interface Discount {
   updated_at: string;
   product?: Products;
   user?: User;
+}
+
+interface Sale {
+  id: number;
+  client_id: number;
+  total: number;
+  status: "pending" | "completed" | "cancelled";
+  created_at: string;
+  updated_at: string;
 }

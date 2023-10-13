@@ -7,7 +7,7 @@ export default withAuth({
         return false;
       }
       // `/admin` requires admin role
-      if (["/promocoes", "/clients"].includes(req.nextUrl.pathname)) {
+      if (["/promocoes", "/clients", "/discount"].includes(req.nextUrl.pathname)) {
         //redirect to home if user is not admin
         return !!token?.role && token.role === "admin";
       }
