@@ -68,3 +68,14 @@ interface Sale {
   created_at: string;
   updated_at: string;
 }
+
+interface SalesProducts {
+  id: number;
+  sale_id: number;
+  product_id: number;
+  quantity: number;
+  price: number;
+  status: "active" | "cancelled";
+  created_at: string;
+  updated_at: string;
+}

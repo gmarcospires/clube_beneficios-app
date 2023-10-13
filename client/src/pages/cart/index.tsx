@@ -36,7 +36,11 @@ const Cart: NextPage<CartProps> = ({ user }) => {
       return;
     }
 
-    const saleResp = fetchAPI("sales", {
+    console.log({
+      client_id: user.clients.id,
+      total: somatorio,
+    })
+    const saleResp = await fetchAPI("sales", {
       method: "POST",
       body: JSON.stringify({
         client_id: user.clients.id,
@@ -46,14 +50,60 @@ const Cart: NextPage<CartProps> = ({ user }) => {
         if (res.status === 201) {
             return res.json();
         }
-        throw new Error("Erro ao criar venda");
+        throw new Error("Erro ao criar venda 1");
         }
-    ).then((res: Sale) => {
-        return res;
+    ).then((resp: Sale) => {
+        return resp;
     }).catch((err) => {
         console.error(err);
         return null;
     });
+
+    if(!saleResp){
+      alert("Erro ao criar venda 1"); 
+      return;
+    }
+
+    const saleId = saleResp.id;
+
+    const salesProductsResp = await Promise.all(
+      produtos.map((p) =>
+        fetchAPI("sales_products", {
+          method: "POST",
+          body: JSON.stringify({
+            sale_id: saleId,
+            product_id: p.id,
+            qtd: p.qtd,
+            price: (p.discount?.status === "active" &&
+            moment(p.discount?.valid_until).isAfter(moment())
+              ? (
+                  p.price *
+                  (1 - p.discount?.discount / 100)
+                )
+              : p.price),
+          }),
+        }).then((res) => {
+            if (res.status === 201) {
+                return res.json();
+            }
+            throw new Error("Erro ao criar venda 2");
+            }
+        ).then((resp: SalesProducts) => {
+            return resp;
+        }).catch((err) => {
+            console.error(err);
+            return null;
+        })
+      ),
+    );
+
+    if(!salesProductsResp){
+      alert("Erro ao criar venda 2"); 
+      return;
+    }
+
+    await router.push("/checkout")
+
 
   };
   return (
