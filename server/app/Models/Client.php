@@ -10,10 +10,10 @@ class Client extends Model
     use HasFactory;
 
     /**
-    * The attributes that are mass assignable.
-    *
-    * @var array
-    */
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'user_id',
         'points',
@@ -27,7 +27,7 @@ class Client extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'points' => 'decimal:2',
+        'points' => 'float',
     ];
 
     /**
@@ -40,5 +40,4 @@ class Client extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 }

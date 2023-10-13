@@ -33,7 +33,12 @@ export default function Navigation() {
     setAnchorEl(null);
   };
 
-  if (session?.status === "unauthenticated") return null;
+  if (session?.status === "unauthenticated") {
+    if (!router.pathname.includes("login")) {
+      router.push("/login").catch((e) => console.log(e));
+    }
+    return null;
+  }
 
   const handleSingOut = async () => {
     await signOut();
@@ -130,13 +135,26 @@ export default function Navigation() {
                   onClose={handleClose}
                 >
                   {route.children.map((child, index) => {
+                    if (
+                      child.role === "admin" &&
+                      session?.data?.user?.role !== "admin"
+                    ) {
+                      return null;
+                    }
                     return (
                       <MenuItem
                         key={index}
-                        onClick={() => router.push(child.path)}
+                        onClick={() => {
+                          handleClose();
+                          router.push(child.path).catch((err) => {
+                            console.error(err);
+                          });
+                        }}
                       >
-                        {child.icon}
-                        {child.label}
+                        <Box className="flex flex-row items-center gap-2">
+                          {child.icon}
+                          {child.label}
+                        </Box>
                       </MenuItem>
                     );
                   })}

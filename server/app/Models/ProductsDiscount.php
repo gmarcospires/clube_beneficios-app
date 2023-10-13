@@ -10,10 +10,10 @@ class ProductsDiscount extends Model
     use HasFactory;
 
     /**
-    * The attributes that are mass assignable.
-    *
-    * @var array
-    */
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'product_id',
         'user_id',
@@ -21,17 +21,23 @@ class ProductsDiscount extends Model
         'valid_until',
         'status'
     ];
-     /**
+    /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
      */
     protected $casts = [
         'valid_until' => 'datetime',
+        'discount' => 'float',
     ];
 
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

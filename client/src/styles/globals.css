@@ -4,4 +4,13 @@
 
 * {
   font-family: "Roboto", sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+@layer components {
+  .custom-container {
+    @apply flex min-h-[90vh] flex-1 flex-col overflow-hidden p-5 pb-[5rem];
+  }
 }

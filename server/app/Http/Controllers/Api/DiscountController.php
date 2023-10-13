@@ -21,10 +21,11 @@ class DiscountController extends Controller
     public function index()
     {
 
-        $productsDiscount =  $this->productsDiscount->paginate(10);
+        $productsDiscount =  $this->productsDiscount->with('product')->with('user')->orderBy('status', 'asc')->orderBy('valid_until', 'desc')->paginate(10);
+
 
         if ($productsDiscount) {
-            return $productsDiscount->load('product');
+            return $productsDiscount;
         } else {
             return response()->json(['error' => 'Not found'], 404);
         }
@@ -35,10 +36,16 @@ class DiscountController extends Controller
      */
     public function store(Request $request)
     {
+        $productsDiscount = $this->productsDiscount->where('product_id', $request->product_id)->where('status', 'active');
+
+        if ($productsDiscount) {
+            $productsDiscount->update(['status' => 'inactive']);
+        }
+
         $productsDiscount =  $this->productsDiscount->create($request->all());
 
         if ($productsDiscount) {
-            return $productsDiscount->load('product');
+            return $productsDiscount->load('product')->load('user');
         } else {
             return response()->json(['error' => 'Erro criação'], 500);
         }
@@ -52,7 +59,7 @@ class DiscountController extends Controller
         $productsDiscount =  $this->productsDiscount->find($id);
 
         if ($productsDiscount) {
-            return $productsDiscount->load('product');
+            return $productsDiscount->load('product')->load('user');
         } else {
             return response()->json(['error' => 'Not found'], 404);
         }
@@ -66,7 +73,7 @@ class DiscountController extends Controller
         $productsDiscount = $this->productsDiscount->find($id);
 
         if ($productsDiscount) {
-            $productsDiscount->load('product');
+            $productsDiscount->load('product')->load('user');
             return $productsDiscount->update($request->all());
         } else {
             return response()->json(['error' => 'Not found'], 404);
@@ -81,7 +88,7 @@ class DiscountController extends Controller
         $productsDiscount = $this->productsDiscount->find($id);
 
         if ($productsDiscount) {
-            $productsDiscount->load('product');
+            $productsDiscount->load('product')->load('user');
             return $productsDiscount->update(['status' => 'inactive']);
         } else {
             return response()->json(['error' => 'Not found'], 404);
