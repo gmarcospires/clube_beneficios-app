@@ -25,6 +25,10 @@ return new class extends Migration
                 2
             );
             $table->integer('stock');
+            $table->string(
+                'image',
+                1000
+            );
         });
     }
 

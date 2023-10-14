@@ -11,26 +11,31 @@ class Product extends Model
 {
     use HasFactory;
 
-        /**
-        * The attributes that are mass assignable.
-        *
-        * @var array
-        */
-        protected $fillable = [
-            'name',
-            'description',
-            'price',
-            'stock'
-        ];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'description',
+        'price',
+        'stock',
+        'image'
+    ];
 
-        /**
-         * The attributes that should be cast.
-         *
-         * @var array<string, string>
-         */
-        protected $casts = [
-            'price' => 'float',
-            'stock' => 'integer'
-        ];
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'price' => 'float',
+        'stock' => 'integer'
+    ];
 
+    public function discount()
+    {
+        return $this->hasOne(ProductsDiscount::class)->where('status', 'active');	
+    }
 }

@@ -289,7 +289,7 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@mui/base@5.0.0-beta.19":
+"@mui/base@5.0.0-beta.19", "@mui/base@^5.0.0-beta.17":
   version "5.0.0-beta.19"
   resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-beta.19.tgz#c1776e91b6a377c1a6a0079b5d6fec6e07a3bf9c"
   integrity sha512-maNBgAscddyPNzFZQUJDF/puxM27Li+NqSBsr/lAP8TLns2VvWS2SoL3OKFOIoRnAMKGY/Ic6Aot6gCYeQnssA==
@@ -370,7 +370,7 @@
   resolved "https://registry.yarnpkg.com/@mui/types/-/types-7.2.6.tgz#d72b9e9eb0032e107e76033932d65c3f731d2608"
   integrity sha512-7sjLQrUmBwufm/M7jw/quNiPK/oor2+pGUQP2CULRcFCArYTq78oJ3D5esTaL0UMkXKJvDqXn6Ike69yAOBQng==
 
-"@mui/utils@^5.14.13":
+"@mui/utils@^5.14.11", "@mui/utils@^5.14.13":
   version "5.14.13"
   resolved "https://registry.yarnpkg.com/@mui/utils/-/utils-5.14.13.tgz#42c352b342da90b44a29a83d3dbda6ee1e56a0f8"
   integrity sha512-2AFpyXWw7uDCIqRu7eU2i/EplZtks5LAMzQvIhC79sPV9IhOZU2qwOWVnPtdctRXiQJOAaXulg+A37pfhEueQw==
@@ -379,6 +379,19 @@
     "@types/prop-types" "^15.7.7"
     prop-types "^15.8.1"
     react-is "^18.2.0"
+
+"@mui/x-date-pickers@^6.16.2":
+  version "6.16.2"
+  resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-6.16.2.tgz#a21e9891d797287bd8aebb822eb26e70a81923f8"
+  integrity sha512-JFrDUeBkiKtfJ0WqwyPBICEP1U+Ujfsily3ZQ/Hv4zAOleG/5769EgS7TOO4cVgnuhtvQ/pqx2gmuCn8/gcC5w==
+  dependencies:
+    "@babel/runtime" "^7.23.1"
+    "@mui/base" "^5.0.0-beta.17"
+    "@mui/utils" "^5.14.11"
+    "@types/react-transition-group" "^4.4.7"
+    clsx "^2.0.0"
+    prop-types "^15.8.1"
+    react-transition-group "^4.4.5"
 
 "@next/env@13.5.4":
   version "13.5.4"
@@ -1769,6 +1782,11 @@ inherits@2:
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
+install@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/install/-/install-0.13.0.tgz#6af6e9da9dd0987de2ab420f78e60d9c17260776"
+  integrity sha512-zDml/jzr2PKU9I8J/xyZBQn8rPCAY//UOYNmR01XwNwyfhEWObo2SWfSl1+0tm1u6PhxLwDnfsT/6jB7OUxqFA==
+
 internal-slot@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/internal-slot/-/internal-slot-1.0.5.tgz#f2a2ee21f668f8627a4667f309dc0f4fb6674986"
@@ -2121,6 +2139,11 @@ minimist@^1.2.0, minimist@^1.2.6:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.8.tgz#c1a464e7693302e082a075cee0c057741ac4772c"
   integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
+
+moment@^2.29.4:
+  version "2.29.4"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
+  integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
 
 ms@2.1.2:
   version "2.1.2"
@@ -2497,6 +2520,11 @@ punycode@^2.1.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.3.0.tgz#f67fa67c94da8f4d0cfff981aee4118064199b8f"
   integrity sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA==
+
+qrcode.react@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/qrcode.react/-/qrcode.react-3.1.0.tgz#5c91ddc0340f768316fbdb8fff2765134c2aecd8"
+  integrity sha512-oyF+Urr3oAMUG/OiOuONL3HXM+53wvuH3mtIWQrYmsXoAq0DkvZp2RYUWFSMFtbdOpuS++9v+WAkzNVkMlNW6Q==
 
 queue-microtask@^1.2.2:
   version "1.2.3"
