@@ -11,20 +11,23 @@ import "@fontsource/roboto/700.css";
 import Navigation from "~/Components/Navigation";
 import "~/styles/globals.css";
 import { LocalizationProvider } from "@mui/x-date-pickers";
+import { CarrinhoProvider } from "~/contexts/Cart";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <LocalizationProvider dateAdapter={AdapterMoment}>
-      <SessionProvider session={session}>
-        <Container className="custom-container">
-          <Component {...pageProps} />
-        </Container>
-        <Navigation />
-      </SessionProvider>
-    </LocalizationProvider>
+    <CarrinhoProvider>
+      <LocalizationProvider dateAdapter={AdapterMoment}>
+        <SessionProvider session={session}>
+          <Container className="custom-container">
+            <Component {...pageProps} />
+          </Container>
+          <Navigation />
+        </SessionProvider>
+      </LocalizationProvider>
+    </CarrinhoProvider>
   );
 };
 

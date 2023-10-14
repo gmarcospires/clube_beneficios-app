@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\saleProduct;
 use Illuminate\Http\Request;
 
-class saleProductProductController extends Controller
+class SaleProductController extends Controller
 {
     private $saleProduct;
 

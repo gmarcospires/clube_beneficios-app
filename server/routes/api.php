@@ -92,3 +92,6 @@ Route::apiResource('clients.sales', \App\Http\Controllers\Api\ClientSales::class
 //DELETE /api/sales/{id}
 //PATCH /api/sales/{id}
 Route::apiResource('sales', \App\Http\Controllers\Api\SaleController::class);
+
+
+Route::apiResource('sales_products', \App\Http\Controllers\Api\SaleProductController::class);
