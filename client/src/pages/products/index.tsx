@@ -92,7 +92,12 @@ function Products() {
         ariaLabel="SpeedDial basic example"
         sx={{ position: "fixed", bottom: 100, right: 30 }}
         icon={
-          <Badge badgeContent={produtos.length ? produtos.reduce((a, b) => a + b.qtd, 0) : 0} color="secondary">
+          <Badge
+            badgeContent={
+              produtos.length ? produtos.reduce((a, b) => a + b.qtd, 0) : 0
+            }
+            color="secondary"
+          >
             <ShoppingCartRounded />
           </Badge>
         }
@@ -148,7 +153,7 @@ function Products() {
                             </Typography>
                             <Typography variant="body1" color="text.secondary">
                               {(
-                                product.price -
+                                product.price *
                                 (1 - product.discount.discount / 100)
                               ).toLocaleString("pt-BR", {
                                 style: "currency",

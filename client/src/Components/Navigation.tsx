@@ -42,6 +42,7 @@ export default function Navigation() {
     return null;
   }
 
+  if (session.status === "loading") return null;
 
   const handleSingOut = async () => {
     updateProdutos([]);

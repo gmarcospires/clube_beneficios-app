@@ -67,6 +67,8 @@ interface Sale {
   status: "pending" | "completed" | "cancelled";
   created_at: string;
   updated_at: string;
+  client?: Clients;
+  products?: Products[];
 }
 
 interface SalesProducts {

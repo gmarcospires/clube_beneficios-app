@@ -21,11 +21,12 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin'
         ]);
 
-        \App\Models\User::factory(5)->create();
+        // \App\Models\User::factory(2)->create();
+
 
         // \App\Models\Client::factory(2)->create();
 
-        \App\Models\Product::factory(10)->create();
+        \App\Models\Product::factory(20)->create();
 
         // \App\Models\ProductsDiscount::factory(3)->create();
 

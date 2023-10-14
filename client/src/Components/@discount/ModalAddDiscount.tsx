@@ -4,21 +4,16 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Stack,
-  type SelectChangeEvent,
-  TextField,
   Skeleton,
+  Stack,
+  TextField,
+  type SelectChangeEvent,
 } from "@mui/material";
-import React, {
-  useEffect,
-  useState,
-  type ReactNode,
-  ChangeEventHandler,
-} from "react";
-import { fetchAPI } from "~/utils/FetchAPI";
-import SelectComponent from "../SelectComponent";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useSession } from "next-auth/react";
+import React, { useEffect, useState } from "react";
+import { fetchAPI } from "~/utils/FetchAPI";
+import SelectComponent from "../SelectComponent";
 interface PropsModalDiscount {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -69,6 +64,12 @@ const ModalAddDiscount: React.FC<PropsModalDiscount> = ({
 
   const handleSubmit = async () => {
     if (!productInput || !discountInput) return;
+    console.log({
+      user_id: Number(session.data?.user?.id),
+      product_id: Number(productInput),
+      discount: Number(discountInput.replace(",", ".")),
+      valid_until: dateInput ? dateInput.toISOString() : null,
+    });
     const resp = await fetchAPI("discount", {
       method: "POST",
       body: JSON.stringify({

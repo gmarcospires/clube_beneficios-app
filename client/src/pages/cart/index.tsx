@@ -36,75 +36,104 @@ const Cart: NextPage<CartProps> = ({ user }) => {
       return;
     }
 
-    console.log({
-      client_id: user.clients.id,
-      total: somatorio,
-    })
     const saleResp = await fetchAPI("sales", {
       method: "POST",
       body: JSON.stringify({
         client_id: user.clients.id,
         total: somatorio,
       }),
-    }).then((res) => {
+    })
+      .then((res) => {
         if (res.status === 201) {
-            return res.json();
+          return res.json();
         }
-        throw new Error("Erro ao criar venda 1");
-        }
-    ).then((resp: Sale) => {
+        throw new Error("Erro ao criar venda");
+      })
+      .then((resp: Sale) => {
         return resp;
-    }).catch((err) => {
+      })
+      .catch((err) => {
         console.error(err);
         return null;
-    });
+      });
 
-    if(!saleResp){
-      alert("Erro ao criar venda 1"); 
+    if (!saleResp) {
+      alert("Erro ao criar venda");
       return;
     }
 
     const saleId = saleResp.id;
-
-    const salesProductsResp = await Promise.all(
-      produtos.map((p) =>
-        fetchAPI("sales_products", {
-          method: "POST",
-          body: JSON.stringify({
-            sale_id: saleId,
-            product_id: p.id,
-            qtd: p.qtd,
-            price: (p.discount?.status === "active" &&
+    const salesProductsResp: boolean[] = [];
+    // const salesProductsResp = await Promise.all(
+    for await (const p of produtos) {
+      const resp = await fetchAPI("sales_products", {
+        method: "POST",
+        body: JSON.stringify({
+          sale_id: saleId,
+          product_id: p.id,
+          quantity: p.qtd,
+          price:
+            p.discount?.status === "active" &&
             moment(p.discount?.valid_until).isAfter(moment())
-              ? (
-                  p.price *
-                  (1 - p.discount?.discount / 100)
-                )
-              : p.price),
-          }),
-        }).then((res) => {
-            if (res.status === 201) {
-                return res.json();
-            }
-            throw new Error("Erro ao criar venda 2");
-            }
-        ).then((resp: SalesProducts) => {
-            return resp;
-        }).catch((err) => {
-            console.error(err);
-            return null;
+              ? p.price * (1 - p.discount?.discount / 100)
+              : p.price,
+        }),
+      })
+        .then((res) => {
+          if (res.status === 201) {
+            return res.json();
+          }
+          throw new Error("Erro ao atribuir produtos a venda");
         })
-      ),
-    );
+        .then((resp: SalesProducts) => {
+          return resp;
+        })
+        .catch((err) => {
+          console.error(err);
+          return null;
+        });
+      if (!resp) {
+        salesProductsResp.push(false);
+      } else {
+        salesProductsResp.push(true);
+      }
+    }
 
-    if(!salesProductsResp){
-      alert("Erro ao criar venda 2"); 
+    if (!salesProductsResp.length || salesProductsResp.includes(false)) {
+      alert("Erro ao atribuir um ou mais produtos a venda");
       return;
     }
 
-    await router.push("/checkout")
+    const points = user.clients.points - somatorio;
 
+    const clientResp = await fetchAPI(`clients/${user.clients.id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        points,
+      }),
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        }
+        throw new Error("Erro ao atualizar pontos do cliente");
+      })
+      .then((resp: Clients) => {
+        return resp;
+      })
+      .catch((err) => {
+        console.error(err);
+        return null;
+      });
 
+    if (!clientResp) {
+      alert("Erro ao atualizar pontos do cliente");
+      return;
+    }
+
+    updateProdutos([]);
+
+    await router.push("/checkout/" + saleId);
   };
   return (
     <Container className="flex h-full w-full flex-1 flex-col">
@@ -112,7 +141,7 @@ const Cart: NextPage<CartProps> = ({ user }) => {
         Carrinho
       </Typography>
       <Box className="mt-5 flex flex-1 flex-col gap-5 align-middle">
-        {!produtos.length && (
+        {!produtos.length ? (
           <Box className="flex flex-col items-center justify-center gap-5 align-middle">
             <Typography variant="body1">Carrinho vazio </Typography>
 
@@ -127,99 +156,104 @@ const Cart: NextPage<CartProps> = ({ user }) => {
               </IconButton>
             </Button>
           </Box>
-        )}
-        {produtos.map((p) => (
-          <Card key={p.id}>
-            <CardActionArea className="m-5 flex flex-row flex-wrap items-center justify-between align-middle">
-              <div className="flex flex-1 flex-col">
-                <Typography variant="h6">{p.name}</Typography>
-                <Typography variant="body1">
-                  {p.discount?.status === "active" &&
-                  moment(p.discount?.valid_until).isAfter(moment())
-                    ? (
-                        p.price *
-                        (1 - p.discount?.discount / 100)
-                      ).toLocaleString("pt-BR", {
-                        style: "currency",
-                        currency: "BRL",
-                      })
-                    : p.price.toLocaleString("pt-BR", {
-                        style: "currency",
-                        currency: "BRL",
-                      })}
-                </Typography>
-              </div>
-              <div className="flex flex-1 flex-row flex-wrap items-center align-middle">
-                <Typography variant="body1">Quantidade: {p.qtd}</Typography>
-                <Box>
-                  <IconButton
-                    onClick={() => {
-                      updateProdutos(
-                        produtos.map((p1) => {
-                          if (p1.id === p.id) {
-                            return { ...p1, qtd: p1.qtd + 1 };
+        ) : (
+          <>
+            {produtos.map((p) => (
+              <Card key={p.id}>
+                <CardActionArea className="m-5 flex flex-row flex-wrap items-center justify-between align-middle">
+                  <div className="flex flex-1 flex-col">
+                    <Typography variant="h6">{p.name}</Typography>
+                    <Typography variant="body1">
+                      {p.discount?.status === "active" &&
+                      moment(p.discount?.valid_until).isAfter(moment())
+                        ? (
+                            p.price *
+                            (1 - p.discount?.discount / 100)
+                          ).toLocaleString("pt-BR", {
+                            style: "currency",
+                            currency: "BRL",
+                          })
+                        : p.price.toLocaleString("pt-BR", {
+                            style: "currency",
+                            currency: "BRL",
+                          })}
+                    </Typography>
+                  </div>
+                  <div className="flex flex-1 flex-row flex-wrap items-center align-middle">
+                    <Typography variant="body1">Quantidade: {p.qtd}</Typography>
+                    <Box>
+                      <IconButton
+                        onClick={() => {
+                          updateProdutos(
+                            produtos.map((p1) => {
+                              if (p1.id === p.id) {
+                                return { ...p1, qtd: p1.qtd + 1 };
+                              }
+                              return p1;
+                            }),
+                          );
+                        }}
+                      >
+                        <AddRounded />
+                      </IconButton>
+                      <IconButton
+                        onClick={() => {
+                          const qtdAtual = produtos.find((p1) => p1.id === p.id)
+                            ?.qtd;
+                          if (qtdAtual && qtdAtual == 1) {
+                            updateProdutos(
+                              produtos.filter((p1) => p1.id !== p.id),
+                            );
+                          } else {
+                            updateProdutos(
+                              produtos.map((p1) => {
+                                if (p1.id === p.id) {
+                                  return { ...p1, qtd: p1.qtd - 1 };
+                                }
+                                return p1;
+                              }),
+                            );
                           }
-                          return p1;
-                        }),
-                      );
-                    }}
-                  >
-                    <AddRounded />
-                  </IconButton>
-                  <IconButton
-                    onClick={() => {
-                      const qtdAtual = produtos.find((p1) => p1.id === p.id)
-                        ?.qtd;
-                      if (qtdAtual && qtdAtual == 1) {
-                        updateProdutos(produtos.filter((p1) => p1.id !== p.id));
-                      } else {
-                        updateProdutos(
-                          produtos.map((p1) => {
-                            if (p1.id === p.id) {
-                              return { ...p1, qtd: p1.qtd - 1 };
-                            }
-                            return p1;
-                          }),
-                        );
-                      }
-                    }}
-                  >
-                    <RemoveRounded />
-                  </IconButton>
-                </Box>
-              </div>
-            </CardActionArea>
-          </Card>
-        ))}
+                        }}
+                      >
+                        <RemoveRounded />
+                      </IconButton>
+                    </Box>
+                  </div>
+                </CardActionArea>
+              </Card>
+            ))}
 
-        <hr />
+            <hr />
 
-        <Box className="flex flex-row justify-between gap-5 align-middle">
-          <Box>
-            <Typography variant="h6">Total</Typography>
-            <Typography variant="body1">
-              {somatorio.toLocaleString("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-              })}
-            </Typography>
-          </Box>
-          <Button
-            variant="contained"
-            className="cursor flex items-center gap-3"
-            onClick={handleClickFinalizarCompra}
-          >
-            Finalizar compra
-            <IconButton color="inherit">
-              <AssignmentRounded />
-            </IconButton>
-          </Button>
-        </Box>
-        {user && (
-          <Typography variant="body1" className="mt-3 self-center">
-            Você tem {user?.clients?.points?.toLocaleString("pt-br") ?? 0}{" "}
-            pontos
-          </Typography>
+            <Box className="flex flex-row justify-between gap-5 align-middle">
+              <Box>
+                <Typography variant="h6">Total</Typography>
+                <Typography variant="body1">
+                  {somatorio.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
+                </Typography>
+              </Box>
+              <Button
+                variant="contained"
+                className="cursor flex items-center gap-3"
+                onClick={handleClickFinalizarCompra}
+              >
+                Finalizar compra
+                <IconButton color="inherit">
+                  <AssignmentRounded />
+                </IconButton>
+              </Button>
+            </Box>
+            {user && (
+              <Typography variant="body1" className="mt-3 self-center">
+                Você tem {user?.clients?.points?.toLocaleString("pt-br") ?? 0}{" "}
+                pontos
+              </Typography>
+            )}
+          </>
         )}
       </Box>
     </Container>

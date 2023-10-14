@@ -20,7 +20,7 @@ class SaleController extends Controller
      */
     public function index()
     {
-        $sale = $this->sale->paginate(10);
+        $sale = $this->sale->with('products')->with('client')->paginate(10);
 
         if ($sale) {
             return $sale;
@@ -34,6 +34,7 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
+
         $sale =  $this->sale->create($request->all());
 
         if ($sale) {
