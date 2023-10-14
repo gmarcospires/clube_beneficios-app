@@ -1,6 +1,5 @@
-import { InputLabel, MenuItem, TextField } from "@mui/material";
-import Select, { type SelectChangeEvent } from "@mui/material/Select";
-import { ChangeEventHandler, type ReactNode } from "react";
+import { MenuItem, TextField } from "@mui/material";
+import { type ChangeEventHandler } from "react";
 
 interface SelectProps {
   label: string;

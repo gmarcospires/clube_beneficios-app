@@ -1,4 +1,8 @@
 import {
+  AddShoppingCartRounded,
+  ShoppingCartRounded,
+} from "@mui/icons-material";
+import {
   Badge,
   CardActionArea,
   Container,
@@ -9,18 +13,14 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
 import Pagination from "@mui/material/Pagination";
-import { useContext, useEffect, useState } from "react";
-import { fetchAPI } from "~/utils/FetchAPI";
-import { useSession } from "next-auth/react";
+import Typography from "@mui/material/Typography";
 import moment from "moment";
-import {
-  AddShoppingCartRounded,
-  ShoppingCartRounded,
-} from "@mui/icons-material";
-import { Carrinho } from "~/contexts/Cart";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
+import { Carrinho } from "~/contexts/Cart";
+import { fetchAPI } from "~/utils/FetchAPI";
 
 function Products() {
   const [page, setPage] = useState(1);

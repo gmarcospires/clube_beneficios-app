@@ -1,17 +1,17 @@
-import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
-import { type AppType } from "next/app";
-import { Container } from "@mui/material";
-import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import "@fontsource/material-icons";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import Navigation from "~/Components/Navigation";
-import "~/styles/globals.css";
+import { Container } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { type Session } from "next-auth";
+import { SessionProvider } from "next-auth/react";
+import { type AppType } from "next/app";
+import Navigation from "~/Components/Navigation";
 import { CarrinhoProvider } from "~/contexts/Cart";
+import "~/styles/globals.css";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,

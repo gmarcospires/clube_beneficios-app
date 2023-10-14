@@ -1,11 +1,9 @@
 import { Container } from "@mui/material";
-import { useSession } from "next-auth/react";
 import Typography from "@mui/material/Typography";
-import { fetchAPI } from "~/utils/FetchAPI";
 import { type GetServerSideProps, type NextPage } from "next";
-import { getServerAuthSession } from "~/server/auth";
 import { QRCodeSVG } from "qrcode.react";
 import { env } from "~/env.mjs";
+import { fetchAPI } from "~/utils/FetchAPI";
 
 interface CheckoutProps {
   sale?: Sale;
