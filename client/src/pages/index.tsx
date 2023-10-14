@@ -1,9 +1,9 @@
 import { Container } from "@mui/material";
-import { useSession } from "next-auth/react";
 import Typography from "@mui/material/Typography";
-import { fetchAPI } from "~/utils/FetchAPI";
 import { type GetServerSideProps, type NextPage } from "next";
+import { useSession } from "next-auth/react";
 import { getServerAuthSession } from "~/server/auth";
+import { fetchAPI } from "~/utils/FetchAPI";
 
 interface HomeProps {
   user: User & {

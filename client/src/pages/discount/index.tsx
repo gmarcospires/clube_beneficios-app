@@ -1,6 +1,7 @@
-import { Button, Container, Modal } from "@mui/material";
-import Box from "@mui/material/Box";
+import { AddRounded } from "@mui/icons-material";
+import { Button, Container } from "@mui/material";
 import Paper from "@mui/material/Paper";
+import Skeleton from "@mui/material/Skeleton";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,10 +11,8 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
-import { fetchAPI } from "~/utils/FetchAPI";
-import Skeleton from "@mui/material/Skeleton";
-import { AddRounded } from "@mui/icons-material";
 import ModalAddDiscount from "~/Components/@discount/ModalAddDiscount";
+import { fetchAPI } from "~/utils/FetchAPI";
 
 function Discount() {
   const [page, setPage] = useState(0);
